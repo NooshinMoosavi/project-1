@@ -24,12 +24,12 @@ int main()
     trim tr;
     while(true)
     {
-        cout<<"Welcome dear teacher !"<<endl;
+        cout << "Welcome dear teacher !" << endl;
         string userName, passWord;
-        cout<<"Enter userName: ";
+        cout << "Enter userName: ";
         getline(cin, userName);
         userName = tr.trim1(userName);
-        cout<<"Enter passWord: ";
+        cout << "Enter passWord: ";
         getline(cin, passWord);
         passWord = tr.trim1(passWord);
     }
