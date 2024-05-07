@@ -68,20 +68,20 @@ class teacher
         {
             cout << "question " << i + 1 <<" :";
             getline(cin >> ws, question[i]);
-            cout << " How many points does this question have ? ";
+            cout << "How many points does this question have ? ";
             getline(cin >> ws, grade[i]);
             if(Q)
             {
-                cout << "enert option A : ";
+                cout << "enter option A : ";
                 getline(cin, optionA);
                 optionA = tr.trim1(optionA);
-                cout << "enert option B : ";
+                cout << "enter option B : ";
                 getline(cin, optionB);
                 optionB = tr.trim1(optionB);
-                cout << "enert option C : ";
+                cout << "enter option C : ";
                 getline(cin, optionC);
                 optionC = tr.trim1(optionC);
-                cout << "enert option D : ";
+                cout << "enter option D : ";
                 getline(cin, optionD);
                 optionD = tr.trim1(optionD);
                 options[i] += "A)" + optionA + " " + "B)" + optionB + " " + "C)" + optionC + " " + "D)" + optionD;
@@ -190,6 +190,8 @@ int main()
             for (int i = 1; i <= number; i++)
             {
                 stu.studentLogin(i);
+                stu.answerQuestions();
+                cout << endl;
             }
         }
         else
