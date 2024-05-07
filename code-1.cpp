@@ -143,6 +143,7 @@ class teacher
 class student : public teacher
 {
     string userName, passWord;
+    string *answer;
     public:
     void studentLogin(int i)
     {
@@ -151,6 +152,18 @@ class student : public teacher
         getline(cin >> ws, userName);
         cout<<"Enter your passWord: ";
         getline(cin >> ws, passWord);
+    }
+    void answerQuestions()
+    {
+        cout << "Read the questions carefully and answer them. " << endl;
+        answer = new string[getNum()];
+        for (int i = 0; i < getNum(); i++)
+        {
+            cout << "question " << i + 1 << ") " << getQuestions(i) << " (score: " << getGrade(i) << ")" << endl;
+            cout << getOptions(i) << ": ";
+            getline(cin, answer[i]);
+            answer[i] = tr.trim1(answer[i]);
+        }
     }
 };
 int main()
@@ -174,7 +187,7 @@ int main()
             int number;
             cout << "How many students are allowed to enter? ";
             cin >> number;
-            for (int i=1; i <= number; i++)
+            for (int i = 1; i <= number; i++)
             {
                 stu.studentLogin(i);
             }
