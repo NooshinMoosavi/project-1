@@ -140,6 +140,19 @@ class teacher
         return "";
     }
 };
+class student : public teacher
+{
+    string userName, passWord;
+    public:
+    void studentLogin(int i)
+    {
+        cout << "Hello, Welcome dear student " << i << ": " << endl;
+        cout << "Enter your userName: ";
+        getline(cin >> ws, userName);
+        cout<<"Enter your passWord: ";
+        getline(cin >> ws, passWord);
+    }
+};
 int main()
 {
     trim tr;
@@ -153,6 +166,24 @@ int main()
         cout << "Enter passWord: ";
         getline(cin, passWord);
         passWord = tr.trim1(passWord);
+        login lo(userName, passWord);
+        if(lo.isTeacher())
+        {
+            student stu;
+            stu.askQuestions();
+            int number;
+            cout << "How many students are allowed to enter? ";
+            cin >> number;
+            for (int i=1; i <= number; i++)
+            {
+                stu.studentLogin(i);
+            }
+        }
+        else
+        {
+            cout << "Incorrect userName ! ";
+            break;
+        }
     }
     return 0;
 }
