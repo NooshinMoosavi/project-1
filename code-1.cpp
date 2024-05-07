@@ -43,13 +43,26 @@ class teacher
     string *question;
     bool Q;
     string optionA, optionB, optionC, optionD, *correctOption;
-    string *option;
+    string *options;
     string *grade;
     void askQuestions()
     {
-        cout << "Do you want to ask descriptive(1) question or a multiple-choice(2) question? ";
+        cout << "Do you want to ask multiple-choice(1) question or a descriptive(2) question ? ";
         string choiceType;
         cin >> choiceType;
+        if (choiceType == "1") 
+        {
+            Q = true;
+        }
+        else if (choiceType == "2")
+        {
+            Q = false;
+        }
+        cout << "How many questions do you want to ask ? ";
+        cin >> num;
+        question = new string[num];
+        grade = new string[num];
+        options = new string[num];
     }
 
 };
