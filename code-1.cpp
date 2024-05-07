@@ -89,10 +89,56 @@ class teacher
                 getline(cin, correctOption[i]);
                 correctOption[i] = tr.trim1(correctOption[i]);                     
             }
-
         }
     }
-
+    bool isTest()
+    {
+        if(Q)
+        {
+            return true;
+        }
+        return false;
+    }
+    int getNum()
+    {
+        return num;
+    }
+    string getQuestions(int index)
+    {
+        if(index >= 0 && index < num)
+        {
+            return question[index];
+        }
+        return "";
+    }
+    string getGrade(int index)
+    {
+        if(index >= 0 && index < num)
+        {
+            return grade[index];
+        }
+        return "";
+    }
+    string getOptions(int index)
+    {
+        if (Q)
+        {
+            if(index >= 0 && index < num)
+            {
+                return options[index];  
+            }
+            return "";
+        }
+        return "";
+    }
+    string getCorrectOption(int index)
+    {
+        if(index >= 0 && index < num)
+        {
+            return correctOption[index];
+        }
+        return "";
+    }
 };
 int main()
 {
