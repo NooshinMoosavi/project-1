@@ -35,6 +35,25 @@ class login
         return false;
     }   
 };
+class teacher
+{
+    public:
+    trim tr;
+    int num;
+    string *question;
+    bool Q;
+    string optionA, optionB, optionC, optionD, *correctOption;
+    string *option;
+    string *grade;
+    void askQuestions()
+    {
+        cout << "Do you want to ask descriptive(1) question or a multiple-choice(2) question? ";
+        string choiceType;
+        cin >> choiceType;
+    }
+
+};
+
 int main()
 {
     trim tr;
