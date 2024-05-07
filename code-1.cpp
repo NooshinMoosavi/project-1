@@ -63,10 +63,37 @@ class teacher
         question = new string[num];
         grade = new string[num];
         options = new string[num];
+        correctOption = new string[num];
+        for (int i = 0; i < num; ++i)
+        {
+            cout << "question " << i + 1 <<" :";
+            getline(cin >> ws, question[i]);
+            cout << " How many points does this question have ? ";
+            getline(cin >> ws, grade[i]);
+            if(Q)
+            {
+                cout << "enert option A : ";
+                getline(cin, optionA);
+                optionA = tr.trim1(optionA);
+                cout << "enert option B : ";
+                getline(cin, optionB);
+                optionB = tr.trim1(optionB);
+                cout << "enert option C : ";
+                getline(cin, optionC);
+                optionC = tr.trim1(optionC);
+                cout << "enert option D : ";
+                getline(cin, optionD);
+                optionD = tr.trim1(optionD);
+                options[i] += "A)" + optionA + " " + "B)" + optionB + " " + "C)" + optionC + " " + "D)" + optionD;
+                cout << "Enter the correct option (A, B, C, D) : ";
+                getline(cin, correctOption[i]);
+                correctOption[i] = tr.trim1(correctOption[i]);                     
+            }
+
+        }
     }
 
 };
-
 int main()
 {
     trim tr;
