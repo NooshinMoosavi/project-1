@@ -19,6 +19,22 @@ class trim
         return u.substr(start, end-start + 1);
     }
 };
+class login
+{
+    private:
+    string userName;
+    string password;
+    public:
+    login(const string &u, const string &p) : userName(u), password(p){}
+    bool isTeacher()
+    {
+        if(userName.find("teacher.") != string::npos)
+        {
+            return true;
+        }
+        return false;
+    }   
+};
 int main()
 {
     trim tr;
