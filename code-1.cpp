@@ -103,6 +103,20 @@ class teacher
     {
         return num;
     }
+    float totalScore()
+    {
+        float *total = new float [getNum()];
+        float total1 = 0;
+        for (int i = 0; i < getNum(); i++) 
+        {
+            total[i] = stof(grade[i]);
+        }
+        for (int i = 0; i < getNum(); i++)
+        {
+            total1 += total[i];
+        }  
+        return total1;
+    }
     string getQuestions(int index)
     {
         if(index >= 0 && index < num)
@@ -144,6 +158,10 @@ class student : public teacher
 {
     string userName, passWord;
     string *answer;
+    string *sum;
+    float *sum1;
+    float sum2;
+    string userNames = "";
     public:
     void studentLogin(int i)
     {
@@ -152,6 +170,10 @@ class student : public teacher
         getline(cin >> ws, userName);
         cout<<"Enter your passWord: ";
         getline(cin >> ws, passWord);
+    }
+    string getUserNames()
+    {
+        return userNames;
     }
     void answerQuestions()
     {
@@ -164,6 +186,32 @@ class student : public teacher
             getline(cin, answer[i]);
             answer[i] = tr.trim1(answer[i]);
         }
+    }
+    float grades()
+    {
+        sum2 = 0;
+        sum = new string[getNum()];
+        sum1 = new float[getNum()];
+        for (int i = 0; i < getNum(); i++)
+        {
+            if (answer[i] == getCorrectOption(i))
+            {
+                sum[i] += getGrade();
+            }
+            else
+            {
+                sum[i] += '0';
+            }
+        }
+        for (int i = 0; i < getNum(); i++)
+        {
+            sum1[i] = stof(sum[i]);
+        }
+        for (int i = 0; i < getNum(); i++)
+        {
+            sum2 += sum1[i];
+        }
+        return sum2;
     }
 };
 int main()
@@ -187,12 +235,50 @@ int main()
             int number;
             cout << "How many students are allowed to enter? ";
             cin >> number;
+            float *grades = new float[number];
             for (int i = 1; i <= number; i++)
             {
                 stu.studentLogin(i);
                 stu.answerQuestions();
+                grades[i] = stu.grades();
                 cout << endl;
             }
+           int command;
+           cout << " How many commands do you wanr to be executed ? ";
+           cin >> command;
+           while (command > 0)
+           {
+            cout << "select the order you want : (1:exam-section | 2:exit)";
+            int n;
+            cin >> n;
+            command--;
+            switch(n)
+            {
+                case 1:
+                {
+                    for (int i = 0; i < stu.getNum(); i++)
+                    {
+                        cout << "question" << i + 1 << ":" << stu.getQuestions(i) << endl << stu.getOptions(i) << endl;
+                    }
+                    cout << "totalScore : " << stu.totalScore() << endl;
+                    string answer;
+                    cout << "Do you want to plan a new exam ? (yes/no)";
+                    getline(cin >> ws, answer);
+                    if(answer == "yes")
+                    {
+                        stu.askQuestions();
+                    }
+                    else
+                        break;
+                    break;  
+                }
+                case 2:
+                {
+                    break;
+                }
+                
+            }
+           } 
         }
         else
         {
