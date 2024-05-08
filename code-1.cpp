@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 using namespace std;
 class trim
 {
@@ -45,6 +47,7 @@ class teacher
     string optionA, optionB, optionC, optionD, *correctOption;
     string *options;
     string *grade;
+    int time;
     void askQuestions()
     {
         cout << "Do you want to ask multiple-choice(1) question or a descriptive(2) question ? ";
@@ -60,6 +63,8 @@ class teacher
         }
         cout << "How many questions do you want to ask ? ";
         cin >> num;
+        cout << "How many seconds does this exam take? ";
+        cin >> time;
         question = new string[num];
         grade = new string[num];
         options = new string[num];
@@ -133,6 +138,10 @@ class teacher
         }
         return "";
     }
+    int examTime()
+    {
+        return time;
+    }
     string getOptions(int index)
     {
         if (Q)
@@ -165,9 +174,10 @@ class student : public teacher
     public:
     void studentLogin(int i)
     {
-        cout << "Hello, Welcome dear student " << i << ": " << endl;
+        cout << "Hello, Welcome dear student " << i+1 << ": " << endl;
         cout << "Enter your userName: ";
         getline(cin >> ws, userName);
+        userNames += userName + " ";
         cout<<"Enter your passWord: ";
         getline(cin >> ws, passWord);
     }
@@ -183,8 +193,16 @@ class student : public teacher
         {
             cout << "question " << i + 1 << ") " << getQuestions(i) << " (score: " << getGrade(i) << ")" << endl;
             cout << getOptions(i) << ": ";
+            auto start = chrono::steady_clock::now();
             getline(cin, answer[i]);
             answer[i] = tr.trim1(answer[i]);
+            auto end = chrono::steady_clock::now();
+            auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start);
+            if (elapsed_seconds.count() > examTime())
+            {
+                cout << "Time's up !";
+                break;
+            }
         }
     }
     float grades()
@@ -196,7 +214,7 @@ class student : public teacher
         {
             if (answer[i] == getCorrectOption(i))
             {
-                sum[i] += getGrade();
+                sum[i] += getGrade(i);
             }
             else
             {
@@ -212,6 +230,10 @@ class student : public teacher
             sum2 += sum1[i];
         }
         return sum2;
+    }
+    string getAnswers(int index)
+    {
+        return answer[index];
     }
 };
 int main()
@@ -235,20 +257,25 @@ int main()
             int number;
             cout << "How many students are allowed to enter? ";
             cin >> number;
+            string *answers = new string[number];
             float *grades = new float[number];
-            for (int i = 1; i <= number; i++)
+            for (int i = 0; i < number; i++)
             {
                 stu.studentLogin(i);
                 stu.answerQuestions();
                 grades[i] = stu.grades();
+                for (int j = 0 ; j < stu.getNum(); j++)
+                {
+                    answers[i] += stu.getAnswers(j) + "//";
+                }
                 cout << endl;
             }
            int command;
-           cout << " How many commands do you wanr to be executed ? ";
+           cout << " How many commands do you want to be executed ? ";
            cin >> command;
            while (command > 0)
            {
-            cout << "select the order you want : (1:exam-section | 2:exit)";
+            cout << "select the order you want : (1:exam-section | 2:students-list | 3:grades-section | 4:exit)";
             int n;
             cin >> n;
             command--;
@@ -258,7 +285,7 @@ int main()
                 {
                     for (int i = 0; i < stu.getNum(); i++)
                     {
-                        cout << "question" << i + 1 << ":" << stu.getQuestions(i) << endl << stu.getOptions(i) << endl;
+                        cout << "question" << i + 1 << ": " << stu.getQuestions(i) << endl << stu.getOptions(i) << endl;
                     }
                     cout << "totalScore : " << stu.totalScore() << endl;
                     string answer;
@@ -274,12 +301,54 @@ int main()
                 }
                 case 2:
                 {
+                    cout << "List: " << stu.getUserNames() << endl;
+                    string answer;
+                    cout << "Are new students allowed to enter? (yes/no) ";
+                    getline(cin >> ws, answer);
+                    if (answer == "yes")
+                    {
+                        int number1;
+                        cout << "How many are they? ";
+                        cin >> number1;
+                        for (int i = 0; i < number1; i++)
+                        {
+                            stu.studentLogin(i);
+                        }
+                        cout << "New list: " << stu.getUserNames();
+                    }
                     break;
                 }
-                
+                case 3:
+                {
+                    string descriptions;
+                    for (int i = 0; i < number; i++)
+                    {
+                        cout << "Answer of student " << i+1 << " : " << answers[i] << endl;
+                        if(stu.isTest())
+                        {
+                            cout << "Student grade " << i+1 << " : " << grades[i]<< endl << "Descriptions: ";
+                            getline(cin >> ws, descriptions);
+                            cout << endl;
+                        }
+                        else
+                        {
+                            string grade;
+                            cout << "Enter the student grade " << i+1 << " : ";
+                            getline(cin >> ws, grade);
+                            cout << "Descriptions: ";
+                            getline(cin >> ws, descriptions);
+                        }
+                    }
+                    break;
+                }
+                case 4:
+                {
+                    cout << "Getting out..." << endl;
+                    break;
+                }
             }
-           } 
         }
+    } 
         else
         {
             cout << "Incorrect userName ! ";
