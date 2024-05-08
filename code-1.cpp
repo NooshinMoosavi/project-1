@@ -95,10 +95,6 @@ class teacher
                 correctOption[i] = tr.trim1(correctOption[i]);                     
             }
         }
-        delete [] question;
-        delete [] options;
-        delete [] grade;
-        delete [] correctOption;
     }
     bool isTest()
     {
@@ -125,7 +121,6 @@ class teacher
             total1 += total[i];
         }  
         return total1;
-        delete [] total;
     }
     string getQuestions(int index)
     {
@@ -209,7 +204,6 @@ class student : public teacher
                 break;
             }
         }
-        delete [] answer;
     }
     float grades()
     {
@@ -236,8 +230,6 @@ class student : public teacher
             sum2 += sum1[i];
         }
         return sum2;
-        delete [] sum;
-        delete [] sum1;
     }
     string getAnswers(int index)
     {
@@ -277,8 +269,6 @@ int main()
                     answers[i] += stu.getAnswers(j) + "//";
                 }
                 cout << endl;
-                delete [] answers;
-                delete [] gradess;
             }
            int command;
            cout << " How many commands do you want to be executed ? ";
