@@ -171,12 +171,23 @@ class student : public teacher
     float *sum1;
     float sum2;
     string userNames = "";
+    string *userNames1 = new string[100];
+    int index1 = 0;
+    int index2 = 0;
+    string answer2;
+    string protest;
+    string *protest1 = new string[100];
+    string time1;
+    string *time2 = new string[100];
+    int index3;
     public:
     void studentLogin(int i)
     {
         cout << "Hello, Welcome dear student " << i+1 << ": " << endl;
         cout << "Enter your userName: ";
         getline(cin >> ws, userName);
+        userNames1[index1] = userName;
+        index1++;
         userNames += userName + " ";
         cout<<"Enter your passWord: ";
         getline(cin >> ws, passWord);
@@ -184,6 +195,10 @@ class student : public teacher
     string getUserNames()
     {
         return userNames;
+    }
+    string getUserNames1(int index)
+    {
+        return userNames1[index];
     }
     void answerQuestions()
     {
@@ -204,6 +219,36 @@ class student : public teacher
                 break;
             }
         }
+    }
+    void protests()
+    {
+        cout << "Do you have any objection to the exam?(yes/no) ";
+        cin >> answer2;
+        if (answer2 == "yes")
+        {
+            getline(cin >> ws, protest);
+            cout << "When did you submit the objection?(for example 12:20:23) ";
+            getline(cin >> ws, time1);
+            time2[index3] = time1;
+            index3++;
+            protest1[index2] = protest;
+            index2++;
+        }
+        else
+        {
+            protest1[index2] = "";
+            index2++;
+            time2[index3] = "";
+            index3++;
+        }
+    }
+    string getProtest(int index)
+    {
+        return protest1[index];
+    }
+    string getProtestTime(int index)
+    {
+        return time2[index];
     }
     float grades()
     {
@@ -259,10 +304,12 @@ int main()
             cin >> number;
             string *answers = new string[number];
             float *grades = new float[number];
+            float *grade2 = new float[number];
             for (int i = 0; i < number; i++)
             {
                 stu.studentLogin(i);
                 stu.answerQuestions();
+                stu.protests();
                 grades[i] = stu.grades();
                 for (int j = 0 ; j < stu.getNum(); j++)
                 {
@@ -271,6 +318,12 @@ int main()
                 cout << endl;
             }
            int command;
+           string *exam1 = new string[3];
+           int index1 = 0;
+           float *totalScore1 = new float[3];
+           int *totalTime = new int[3];
+           string *objectionResponse = new string[number];
+           string *descriptions = new string[number];
            cout << " How many commands do you want to be executed ? ";
            cin >> command;
            while (command > 0)
@@ -285,18 +338,51 @@ int main()
                 {
                     for (int i = 0; i < stu.getNum(); i++)
                     {
-                        cout << "question" << i + 1 << ": " << stu.getQuestions(i) << endl << stu.getOptions(i) << endl;
+                        exam1[index1] += stu.getQuestions(i) + " " + stu.getOptions(i) + "\n";
                     }
-                    cout << "totalScore : " << stu.totalScore() << endl;
-                    string answer;
+                    index1++;
+                    for (int i = 0; i < index1; i++)
+                    {
+                        cout << "Exam 1: " << endl;
+                        cout << exam1[i] << endl;
+                    }
+                    totalScore1[0] = stu.totalScore();
+                    totalTime[0] = stu.examTime();
+                    cout << "Total score: " << totalScore1[0] << endl;
+                    cout << "Total time: " << totalTime[0] << endl;
+                    string answer; 
                     cout << "Do you want to plan a new exam ? (yes/no)";
                     getline(cin >> ws, answer);
                     if(answer == "yes")
                     {
                         stu.askQuestions();
+                        for (int i = 0; i < stu.getNum(); i++)
+                        {
+                            exam1[index1] += stu.getQuestions(i) + " " + stu.getOptions(i) + "\n";
+                        }
+                        totalScore1[1] = stu.totalScore();
+                        totalTime[1] = stu.examTime();
+                        index1++;
+                        cout << "The exams that have been planned: "<< endl;
+                        for (int i = 0; i < index1; i++)
+                        {
+                            cout << "Exam " << i+1 << " : " << endl;
+                            cout << exam1[i] << endl;
+                            cout << "Total score: " << totalScore1[i] << endl;
+                            cout << "Total time: " << totalTime[i] << endl;
+                        }
                     }
                     else
-                        break;
+                    {
+                        cout << "The exams that have been planned: "<< endl;
+                        for (int i = 0; i < index1; i++)
+                        {
+                            cout << "Exam " << i+1 << " : " << endl;
+                            cout << exam1[i] << endl;
+                            cout << "Total score: " << totalScore1[i] << endl;
+                            cout << "Total time: " << totalTime[i] << endl;
+                        }
+                    }
                     break;  
                 }
                 case 2:
@@ -320,25 +406,35 @@ int main()
                 }
                 case 3:
                 {
-                    string descriptions;
                     for (int i = 0; i < number; i++)
                     {
-                        cout << "Answer of student " << i+1 << " : " << answers[i] << endl;
-                        if(stu.isTest())
+                        cout << "Objection of student " << i+1 << "with name " << stu.getUserNames1(i) << " : " << stu.getProtest(i) << endl;
+                        cout << "Protest time: " << stu.getProtestTime(i) << endl;
+                        string exam;
+                        cout << "Was the exam multiple-choice(1) or a descriptive(2)? ";
+                        cin >> exam;
+                        if (exam == "1")
                         {
-                            cout << "Student grade " << i+1 << " : " << grades[i]<< endl << "Descriptions: ";
-                            getline(cin >> ws, descriptions);
+                            cout << "The same student's answer: " << answers[i] << endl;
+                            cout << "Student grade " << i+1 << " : " << grades[i] << endl;
+                            cout << "Response to the student's protest " << endl;
+                            getline(cin >> ws, objectionResponse[i]);
+                            cout << "Descriptions: " << endl;
+                            getline(cin >> ws, descriptions[i]);
                             cout << endl;
                         }
-                        else
+                        else if (exam == "2")
                         {
-                            string grade;
-                            cout << "Enter the student grade " << i+1 << " : ";
-                            getline(cin >> ws, grade);
-                            cout << "Descriptions: ";
-                            getline(cin >> ws, descriptions);
+                            cout << "The same student's answer: " << answers[i] << endl;
+                            cout << "Enter The student grade " << i+1 << " : ";
+                            cin >> grade2[i];
+                            cout << "Response to the student's protest " << endl;
+                            getline(cin >> ws, objectionResponse[i]);
+                            cout << "Descriptions: " << endl;
+                            getline(cin >> ws, descriptions[i]);
+                            cout << endl;
                         }
-                    }
+                    }                   
                     break;
                 }
                 case 4:
