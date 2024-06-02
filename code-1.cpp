@@ -328,7 +328,7 @@ int main()
            cin >> command;
            while (command > 0)
            {
-            cout << "select the order you want : (1:exam-section | 2:students-list | 3:grades-section | 4:exit)";
+            cout << "select the order you want : (1:exam-section | 2:students-list | 3:grades-section | 4:students-rank | 5:exit)";
             int n;
             cin >> n;
             command--;
@@ -438,6 +438,74 @@ int main()
                     break;
                 }
                 case 4:
+                {
+                    string exam;
+                    cout << "The exam was multiple-choice(1) or a descriptive(2) ? ";
+                    cin >> exam;
+                    if(exam == "1")
+                    {
+                        cout << "Ranking of students in ascending order : " << endl;
+                        string UserNames[number];
+                        float grade1[number];
+                        for(int i = 0; i < number; i++)
+                        {
+                            UserNames[i] = stu.getUserNames1(i);
+                            grade1[i] = grades[i];
+                        }
+                        for(int i = 0; i < number - 1; i++)
+                        {
+                            for(int j = 0; j < number - i - 1; j++)
+                            {
+                                if(grade1[j] < grade1[j + 1]) 
+                                {
+                                    float temp = grade1[j];
+                                    grade1[j] = grade1[j + 1];
+                                    grade1[j + 1] = temp;
+                                    string tempName = UserNames[j];
+                                    UserNames[j] = UserNames[j + 1];
+                                    UserNames[j + 1] = tempName;
+                                }
+                            }
+                        }
+                        for(int i = number - 1; i >= 0; i--)
+                        {
+                            cout << " Rank " << i + 1 << " : " << UserNames[i] << " with score : ";
+                            cout << grade1[i] << endl;
+                        }
+                    }
+                    else if(exam == "2")
+                    {
+                        cout << "Ranking of students in ascending order : " << endl;
+                        string UserNames[number];
+                        for(int i = 0; i < number; i++)
+                        {
+                            UserNames[i] = stu.getUserNames1(i);
+                            grade2[i] = grades[i];
+                        }
+                        for(int i = 0; i < number - 1; i++)
+                        {
+                            for(int j = 0; j < number - i - 1; j++)
+                            {
+                                if(grade2[j] < grade2[j + 1]) 
+                                {
+                                    float temp = grade2[j];
+                                    grade2[j] = grade2[j + 1];
+                                    grade2[j + 1] = temp;
+                                    string tempName = UserNames[j];
+                                    UserNames[j] = UserNames[j + 1];
+                                    UserNames[j + 1] = tempName;
+                                }
+                            }
+                        }
+                        for(int i = number - 1; i >= 0; i--)
+                        {
+                            cout << " Rank " << i << " : " << UserNames[i] << " with score : ";
+                            cout << grade2[i] << endl;
+                        }
+                    }
+                    break;
+                }
+                case 5:
                 {
                     cout << "Getting out..." << endl;
                     break;
