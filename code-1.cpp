@@ -30,7 +30,7 @@ class login
     login(const string &u, const string &p) : userName(u), password(p){}
     bool isTeacher()
     {
-        if(userName.find("teacher.") != string::npos)
+        if (userName.find("teacher.") != string::npos)
         {
             return true;
         }
@@ -75,7 +75,7 @@ class teacher
             getline(cin >> ws, question[i]);
             cout << "How many points does this question have ? ";
             getline(cin >> ws, grade[i]);
-            if(Q)
+            if (Q)
             {
                 cout << "enter option A : ";
                 getline(cin, optionA);
@@ -98,7 +98,7 @@ class teacher
     }
     bool isTest()
     {
-        if(Q)
+        if (Q)
         {
             return true;
         }
@@ -124,7 +124,7 @@ class teacher
     }
     string getQuestions(int index)
     {
-        if(index >= 0 && index < num)
+        if (index >= 0 && index < num)
         {
             return question[index];
         }
@@ -132,7 +132,7 @@ class teacher
     }
     string getGrade(int index)
     {
-        if(index >= 0 && index < num)
+        if (index >= 0 && index < num)
         {
             return grade[index];
         }
@@ -146,7 +146,7 @@ class teacher
     {
         if (Q)
         {
-            if(index >= 0 && index < num)
+            if (index >= 0 && index < num)
             {
                 return options[index];  
             }
@@ -156,7 +156,7 @@ class teacher
     }
     string getCorrectOption(int index)
     {
-        if(index >= 0 && index < num)
+        if (index >= 0 && index < num)
         {
             return correctOption[index];
         }
@@ -284,7 +284,7 @@ class student : public teacher
 int main()
 {
     trim tr;
-    while(true)
+    while (true)
     {
         cout << "Welcome dear teacher !" << endl;
         string userName, passWord;
@@ -295,7 +295,7 @@ int main()
         getline(cin, passWord);
         passWord = tr.trim1(passWord);
         login lo(userName, passWord);
-        if(lo.isTeacher())
+        if (lo.isTeacher())
         {
             student stu;
             stu.askQuestions();
@@ -305,6 +305,7 @@ int main()
             string *answers = new string[number];
             float *grades = new float[number];
             float *grade2 = new float[number];
+            float *grade3 = new float[number];
             for (int i = 0; i < number; i++)
             {
                 stu.studentLogin(i);
@@ -328,7 +329,7 @@ int main()
            cin >> command;
            while (command > 0)
            {
-            cout << "select the order you want : (1:exam-section | 2:students-list | 3:grades-section | 4:students-rank | 5:exit)";
+            cout << "select the order you want : (1:exam-section | 2:students-list | 3:grades-section | 4:students-rank | 5:exit) ";
             int n;
             cin >> n;
             command--;
@@ -353,7 +354,7 @@ int main()
                     string answer; 
                     cout << "Do you want to plan a new exam ? (yes/no)";
                     getline(cin >> ws, answer);
-                    if(answer == "yes")
+                    if (answer == "yes")
                     {
                         stu.askQuestions();
                         for (int i = 0; i < stu.getNum(); i++)
@@ -408,7 +409,7 @@ int main()
                 {
                     for (int i = 0; i < number; i++)
                     {
-                        cout << "Objection of student " << i+1 << "with name " << stu.getUserNames1(i) << " : " << stu.getProtest(i) << endl;
+                        cout << "Objection of student " << i+1 << " with the name " << stu.getUserNames1(i) << " to exam 1: " << stu.getProtest(i) << endl;
                         cout << "Protest time: " << stu.getProtestTime(i) << endl;
                         string exam;
                         cout << "Was the exam multiple-choice(1) or a descriptive(2)? ";
@@ -427,7 +428,7 @@ int main()
                         {
                             cout << "The same student's answer: " << answers[i] << endl;
                             cout << "Enter The student grade " << i+1 << " : ";
-                            cin >> grade2[i];
+                            cin >> grade3[i];
                             cout << "Response to the student's protest " << endl;
                             getline(cin >> ws, objectionResponse[i]);
                             cout << "Descriptions: " << endl;
@@ -440,23 +441,23 @@ int main()
                 case 4:
                 {
                     string exam;
-                    cout << "The exam was multiple-choice(1) or a descriptive(2) ? ";
+                    cout << "Was the exam multiple-choice(1) or a descriptive(2) ? ";
                     cin >> exam;
-                    if(exam == "1")
+                    if (exam == "1")
                     {
                         cout << "Ranking of students in ascending order : " << endl;
                         string UserNames[number];
                         float grade1[number];
-                        for(int i = 0; i < number; i++)
+                        for (int i = 0; i < number; i++)
                         {
                             UserNames[i] = stu.getUserNames1(i);
                             grade1[i] = grades[i];
                         }
-                        for(int i = 0; i < number - 1; i++)
+                        for (int i = 0; i < number - 1; i++)
                         {
-                            for(int j = 0; j < number - i - 1; j++)
+                            for (int j = 0; j < number - i - 1; j++)
                             {
-                                if(grade1[j] < grade1[j + 1]) 
+                                if (grade1[j] < grade1[j + 1]) 
                                 {
                                     float temp = grade1[j];
                                     grade1[j] = grade1[j + 1];
@@ -467,26 +468,26 @@ int main()
                                 }
                             }
                         }
-                        for(int i = number - 1; i >= 0; i--)
+                        for (int i = number - 1; i >= 0; i--)
                         {
                             cout << " Rank " << i + 1 << " : " << UserNames[i] << " with score : ";
                             cout << grade1[i] << endl;
                         }
                     }
-                    else if(exam == "2")
+                    else if (exam == "2")
                     {
                         cout << "Ranking of students in ascending order : " << endl;
                         string UserNames[number];
                         for(int i = 0; i < number; i++)
                         {
                             UserNames[i] = stu.getUserNames1(i);
-                            grade2[i] = grades[i];
+                            grade2[i] = grade3[i];
                         }
-                        for(int i = 0; i < number - 1; i++)
+                        for (int i = 0; i < number - 1; i++)
                         {
-                            for(int j = 0; j < number - i - 1; j++)
+                            for (int j = 0; j < number - i - 1; j++)
                             {
-                                if(grade2[j] < grade2[j + 1]) 
+                                if (grade2[j] < grade2[j + 1]) 
                                 {
                                     float temp = grade2[j];
                                     grade2[j] = grade2[j + 1];
@@ -497,9 +498,9 @@ int main()
                                 }
                             }
                         }
-                        for(int i = number - 1; i >= 0; i--)
+                        for (int i = number - 1; i >= 0; i--)
                         {
-                            cout << " Rank " << i << " : " << UserNames[i] << " with score : ";
+                            cout << " Rank " << i+1 << " : " << UserNames[i] << " with score : ";
                             cout << grade2[i] << endl;
                         }
                     }
@@ -512,12 +513,90 @@ int main()
                 }
             }
         }
-    } 
-        else
+        cout << "Student dashboard: " << endl;
+        int cd;
+        string userName;
+        string passWord;
+        string userName1[number];
+        string userNames2[number];
+        int index = 0;
+        float grade4[number];
+        float grade5[number];
+        string answer1[number];
+        string objectionResponse1[number];
+        string descriptions1[number];
+        string protest[number];
+        string protestTime[number];
+        for (int i = 0; i < number; i++)
         {
-            cout << "Incorrect userName ! ";
-            break;
+            userName1[i] = stu.getUserNames1(i);
+        }
+        for (int i = 0; i < number; i++)
+        {
+            cout << "Enter your userName:";
+            cin >> userName;
+            cout << "Enter your passWord:";
+            cin >> passWord;
+            bool found = false;
+            for (int i = 0; i < number; i++)
+            {
+                if (userName == userName1[i])
+                {
+                    found = true;
+                    userNames2[index] = userName1[i];
+                    answer1[index] = answers[i];
+                    grade4[index] = grades[i];
+                    grade5[index] = grade3[i];
+                    protest[index] = stu.getProtest(i);
+                    protestTime[index] = stu.getProtestTime(i);
+                    objectionResponse1[index] = objectionResponse[i];
+                    descriptions1[index] = descriptions[i];
+                    index++;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                cout << "Incorrect userName!" << endl;
+                break;
+            }
+            cout << "How many commands do you want to be executed? ";
+            cin >> cd;
+            while (cd > 0)
+            {
+                cout << "Select the order you want: (1:exam-section) ";
+                int n;
+                cin >> n;
+                cd--;
+                switch (n)
+                {
+                    case 1:
+                    {
+                        cout << "Student with the name " << userNames2[i] << " : ";
+                        string exam;
+                        cout << "Was the exam multiple-choice(1) or a descriptive(2)? ";
+                        cin >> exam;
+                        if (exam == "1")
+                        {
+                            cout << "Your exam: " << endl;
+                            cout << exam1[0] << endl;
+                            cout << "Total score: " << totalScore1[0] << endl;
+                            cout << "Total time: " << totalTime[0] << "\n\n";
+                            cout << "Your answers: " << answer1[i] << endl;
+                            cout << "Your objection to the exam: " << protest[i] << endl;
+                            cout << "The time of your objection to the exam: " << protestTime[i] << "\n\n";
+                            cout << "Your grade: " << grade4[i] << endl;
+                            cout << "Teacher's answer to your objection: " << objectionResponse1[i] << endl;
+                            cout << "Teacher's explanation for you: " << descriptions1[i] << endl;
+                        }
+                        else if (exam == "2")
+                        {}
+                        break;    
+                    }
+                }
+            }
         }
     }
+}
     return 0;
 }
