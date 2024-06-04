@@ -319,6 +319,8 @@ int main()
                 cout << endl;
             }
            int command;
+           bool Ok;
+           int examOk = 0;
            string *exam1 = new string[3];
            int index1 = 0;
            float *totalScore1 = new float[3];
@@ -371,6 +373,16 @@ int main()
                             cout << exam1[i] << endl;
                             cout << "Total score: " << totalScore1[i] << endl;
                             cout << "Total time: " << totalTime[i] << endl;
+                        }
+                        cout << "Can students see the new exam ? ( 1->yes / 0->No)";
+                        cin >> examOk;
+                        if (examOk == 1)
+                        {
+                            Ok = true;
+                        }
+                        else if (examOk == 0)
+                        {
+                            Ok = false;
                         }
                     }
                     else
@@ -470,7 +482,7 @@ int main()
                         }
                         for (int i = number - 1; i >= 0; i--)
                         {
-                            cout << " Rank " << i + 1 << " : " << UserNames[i] << " with score : ";
+                            cout << "Rank " << i + 1 << " : " << UserNames[i] << " with score : ";
                             cout << grade1[i] << endl;
                         }
                     }
@@ -500,7 +512,7 @@ int main()
                         }
                         for (int i = number - 1; i >= 0; i--)
                         {
-                            cout << " Rank " << i+1 << " : " << UserNames[i] << " with score : ";
+                            cout << "Rank " << i+1 << " : " << UserNames[i] << " with score : ";
                             cout << grade2[i] << endl;
                         }
                     }
@@ -564,7 +576,7 @@ int main()
             cin >> cd;
             while (cd > 0)
             {
-                cout << "Select the order you want: (1:exam-section) ";
+                cout << "Select the order you want: (1:exam-section | 2:New-exams | 3:exit) ";
                 int n;
                 cin >> n;
                 cd--;
@@ -590,12 +602,46 @@ int main()
                             cout << "Teacher's explanation for you: " << descriptions1[i] << endl;
                         }
                         else if (exam == "2")
-                        {}
+                        {
+                            cout << "Your exam: " << endl;
+                            cout << exam1[0] << endl;
+                            cout << "Total score: " << totalScore1[0] << endl;
+                            cout << "Total time: " << totalTime[0] << "\n\n";
+                            cout << "Your answers: " << answer1[i] << endl;
+                            cout << "Your objection to the exam: " << protest[i] << endl;
+                            cout << "The time of your objection to the exam: " << protestTime[i] << "\n\n";
+                            cout << "Your grade: " << grade5[i] << endl;
+                            cout << "Teacher's answer to your objection: " << objectionResponse1[i] << endl;
+                            cout << "Teacher's explanation for you: " << descriptions1[i] << endl;
+                        }
                         break;    
+                    }
+                    case 2:
+                    {
+                        if (Ok)
+                        {
+                            cout << "Exam 2 : " << endl;
+                            cout << exam1[1] << endl;
+                            cout << "Total Score : " << totalScore1[1] << endl;
+                            cout << "Total Time : " << totalTime[1] << endl;
+                        }
+                        else
+                        {
+                            cout << "There is no any exams !";
+                        }
+                        break;
+                    }
+                    case 3:
+                    {
+                        break;
                     }
                 }
             }
         }
+    }
+    else
+    {
+        cout << "InCorrect Username ! " << endl;
     }
 }
     return 0;
