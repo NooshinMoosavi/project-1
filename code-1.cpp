@@ -96,27 +96,19 @@ class teacher
             }
         }
     }
-    bool isTest()
-    {
-        if (Q)
-        {
-            return true;
-        }
-        return false;
-    }
     int getNum()
     {
         return num;
     }
     float totalScore()
     {
-        float *total = new float [getNum()];
+        float *total = new float[num];
         float total1 = 0;
-        for (int i = 0; i < getNum(); i++) 
+        for (int i = 0; i < num; i++) 
         {
             total[i] = stof(grade[i]);
         }
-        for (int i = 0; i < getNum(); i++)
+        for (int i = 0; i < num; i++)
         {
             total1 += total[i];
         }  
@@ -179,7 +171,7 @@ class student : public teacher
     string *protest1 = new string[100];
     string time1;
     string *time2 = new string[100];
-    int index3;
+    int index3 = 0;
     public:
     void studentLogin(int i)
     {
@@ -215,7 +207,7 @@ class student : public teacher
             auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start);
             if (elapsed_seconds.count() > examTime())
             {
-                cout << "Time's up !";
+                cout << "Time's up !" << endl;
                 break;
             }
         }
@@ -327,7 +319,8 @@ int main()
            int *totalTime = new int[3];
            string *objectionResponse = new string[number];
            string *descriptions = new string[number];
-           cout << " How many commands do you want to be executed ? ";
+           cout << "Dear teacher!" << endl;
+           cout << "How many commands do you want to be executed ? ";
            cin >> command;
            while (command > 0)
            {
@@ -633,15 +626,17 @@ int main()
                     }
                     case 3:
                     {
+                        cout << "Getting out..." << endl;
                         break;
                     }
                 }
             }
         }
-    }
+    } 
     else
     {
         cout << "InCorrect Username ! " << endl;
+        break;
     }
 }
     return 0;
